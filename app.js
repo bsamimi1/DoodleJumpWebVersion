@@ -1,7 +1,7 @@
 const boundary = document.querySelector(".boundary");
 const character = document.createElement("div");
 
-let characterLeftSpace = 50;
+let characterLeftSpace = 0;
 let characterBottomSpace = 250;
 let isGameOver = false;
 const platforms = [];
@@ -12,6 +12,7 @@ let downTimerId;
 function initializeCharacter() {
   character.classList.add("character");
   boundary.appendChild(character);
+  characterLeftSpace = platforms[0].left;
   character.style.left = characterLeftSpace + "px";
   character.style.bottom = characterBottomSpace + "px";
 }
@@ -74,10 +75,14 @@ function charFall() {
 }
 
 function gameOver() {
-  console.log("game over");
+  isGameOver = true;
+  clearInterval(upTimerId);
+  clearInterval(downTimerId);
 }
 
-initializeCharacter();
-createPlatforms();
-setInterval(movePlatforms, 30);
-charJump();
+if (!isGameOver) {
+  createPlatforms();
+  initializeCharacter();
+  setInterval(movePlatforms, 30);
+  charJump();
+}

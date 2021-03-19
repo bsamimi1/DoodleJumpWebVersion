@@ -1,8 +1,11 @@
 .boundary {
     width: 400px;
     height: 600px;
-    background-color: yellow;
+    background-size: 6% 4%;
     position: relative;
+    background-image:
+    linear-gradient(to right, grey 1px, transparent 1px),
+    linear-gradient(to bottom, grey 1px, transparent 1px);
 }
 
 .character {
