@@ -2,8 +2,9 @@ const boundary = document.querySelector(".boundary");
 const character = document.querySelector(".character");
 
 let characterLeftSpace = 50;
-let characterBottomSpace = 150;
+let characterBottomSpace = 250;
 let isGameOver = false;
+const platforms = [];
 const numPlatforms = 5;
 
 function setCharacterPosition() {
@@ -32,8 +33,23 @@ function createPlatforms() {
     let platformSpaceBetween = 600 / numPlatforms;
     let newPlatBottom = 100 + i * platformSpaceBetween;
     let newPlatform = new Platform(newPlatBottom);
+    platforms.push(newPlatform);
   }
 }
 
+function movePlatforms() {
+  if (characterBottomSpace > 200) {
+    platforms.forEach((platform) => {
+      platform.bottom -= 30;
+      let platDiv = platform.platDiv;
+      platDiv.style.bottom = platform.bottom + "px";
+    });
+  }
+}
+
+function charJump() {}
+
 setCharacterPosition();
 createPlatforms();
+
+setInterval(movePlatforms, 30);
