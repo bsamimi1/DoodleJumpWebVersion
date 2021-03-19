@@ -1,13 +1,17 @@
 const boundary = document.querySelector(".boundary");
-const character = document.querySelector(".character");
+const character = document.createElement("div");
 
 let characterLeftSpace = 50;
 let characterBottomSpace = 250;
 let isGameOver = false;
 const platforms = [];
 const numPlatforms = 5;
+let upTimerId;
+let downTimerId;
 
-function setCharacterPosition() {
+function initializeCharacter() {
+  character.classList.add("character");
+  boundary.appendChild(character);
   character.style.left = characterLeftSpace + "px";
   character.style.bottom = characterBottomSpace + "px";
 }
@@ -40,16 +44,40 @@ function createPlatforms() {
 function movePlatforms() {
   if (characterBottomSpace > 200) {
     platforms.forEach((platform) => {
-      platform.bottom -= 30;
+      platform.bottom -= 5;
       let platDiv = platform.platDiv;
       platDiv.style.bottom = platform.bottom + "px";
     });
   }
 }
 
-function charJump() {}
+function charJump() {
+  clearInterval(downTimerId);
+  upTimerId = setInterval(() => {
+    characterBottomSpace += 10;
+    character.style.bottom = characterBottomSpace + "px";
+    if (characterBottomSpace > 350) {
+      charFall();
+    }
+  }, 30);
+}
 
-setCharacterPosition();
+function charFall() {
+  clearInterval(upTimerId);
+  downTimerId = setInterval(() => {
+    characterBottomSpace -= 5;
+    character.style.bottom = characterBottomSpace + "px";
+    if (characterBottomSpace <= 0) {
+      gameOver();
+    }
+  }, 30);
+}
+
+function gameOver() {
+  console.log("game over");
+}
+
+initializeCharacter();
 createPlatforms();
-
 setInterval(movePlatforms, 30);
+charJump();
