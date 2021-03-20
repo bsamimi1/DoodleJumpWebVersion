@@ -11,12 +11,13 @@
 .platform {
     width: 85px;
     height: 15px;
-    background-color: rgb(29, 95, 29);
+    background: linear-gradient(to bottom, green 0%, rgb(15, 78, 15) 100%);
     position: absolute;
+    border-radius: 75px;
 }
 
 .character {
-    width: 60px;
+    width: 80px;
     height: 80px;
     position:absolute;
     content:url(doodle_character.png);
