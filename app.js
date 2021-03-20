@@ -1,18 +1,27 @@
 const boundary = document.querySelector(".boundary");
 const character = document.createElement("div");
 
-let characterLeftSpace = 0;
-let characterBottomSpace = 250;
+let characterLeftSpace;
+let characterBottomSpace;
 let isGameOver = false;
 const platforms = [];
 const numPlatforms = 5;
 let upTimerId;
 let downTimerId;
+let isJumping = true;
+let jumpPos;
+let isLeft;
+let isRight;
+let leftTimerId;
+let rightTimerId;
 
 function initializeCharacter() {
   character.classList.add("character");
   boundary.appendChild(character);
   characterLeftSpace = platforms[0].left;
+  //hardcoded height of platform for now
+  characterBottomSpace = platforms[0].bottom + 15;
+  jumpPos = characterBottomSpace;
   character.style.left = characterLeftSpace + "px";
   character.style.bottom = characterBottomSpace + "px";
 }
@@ -27,7 +36,6 @@ class Platform {
     platDiv.classList.add("platform");
     platDiv.style.left = this.left + "px";
     platDiv.style.bottom = this.bottom + "px";
-    console.log(boundary);
 
     boundary.appendChild(platDiv);
   }
@@ -53,17 +61,19 @@ function movePlatforms() {
 }
 
 function charJump() {
+  isJumping = true;
   clearInterval(downTimerId);
   upTimerId = setInterval(() => {
     characterBottomSpace += 10;
     character.style.bottom = characterBottomSpace + "px";
-    if (characterBottomSpace > 350) {
+    if (characterBottomSpace > jumpPos + 200) {
       charFall();
     }
   }, 30);
 }
 
 function charFall() {
+  isJumping = false;
   clearInterval(upTimerId);
   downTimerId = setInterval(() => {
     characterBottomSpace -= 5;
@@ -71,18 +81,29 @@ function charFall() {
     if (characterBottomSpace <= 0) {
       gameOver();
     }
+    platforms.forEach((platform) => {
+      if (
+        characterBottomSpace >= platform.bottom &&
+        characterBottomSpace <= platform.bottom + 15 &&
+        characterLeftSpace + 60 >= platform.left &&
+        characterLeftSpace <= platform.left + 85
+      ) {
+        console.log("jumping");
+        charJump();
+        jumpPos = characterBottomSpace;
+      }
+    });
   }, 30);
 }
 
 function gameOver() {
+  console.log("game over");
   isGameOver = true;
-  clearInterval(upTimerId);
   clearInterval(downTimerId);
+  clearInterval(upTimerId);
 }
 
-if (!isGameOver) {
-  createPlatforms();
-  initializeCharacter();
-  setInterval(movePlatforms, 30);
-  charJump();
-}
+createPlatforms();
+initializeCharacter();
+setInterval(movePlatforms, 30);
+charJump();

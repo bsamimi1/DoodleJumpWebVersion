@@ -8,16 +8,16 @@
     linear-gradient(to bottom, grey 1px, transparent 1px);
 }
 
-.character {
-    width: 60px;
-    height: 80px;
-    background-color: blue;
-    position:absolute;
-}
-
 .platform {
     width: 85px;
     height: 15px;
     background-color: rgb(29, 95, 29);
     position: absolute;
 }
+
+.character {
+    width: 60px;
+    height: 80px;
+    position:absolute;
+    content:url(doodle_character.png);
+}​
