@@ -1,6 +1,7 @@
 const boundary = document.querySelector(".boundary");
 const character = document.createElement("div");
 
+let score = 0;
 let characterLeftSpace;
 let characterBottomSpace;
 let isGameOver = false;
@@ -92,6 +93,7 @@ function movePlatforms() {
       let platDiv = platform.platDiv;
       platDiv.style.bottom = platform.bottom + "px";
       if (platform.bottom < 10) {
+        score++;
         platforms[0].platDiv.remove("platform");
         platforms.shift();
         let newPlat = new Platform(600);
@@ -142,10 +144,22 @@ function gameOver() {
   isGameOver = true;
   clearInterval(downTimerId);
   clearInterval(upTimerId);
+  clearInterval(leftTimerId);
+  clearInterval(rightTimerId);
+  console.log("got here");
+  while (boundary.firstChild) {
+    console.log("remove");
+    boundary.removeChild(boundary.firstChild);
+  }
+  boundary.innerHTML = score;
 }
 
-createPlatforms();
-initializeCharacter();
-setInterval(movePlatforms, 30);
-charJump();
-document.addEventListener("keyup", moveChar);
+function startRound() {
+  createPlatforms();
+  initializeCharacter();
+  setInterval(movePlatforms, 30);
+  charJump();
+  document.addEventListener("keyup", moveChar);
+}
+
+startRound();
