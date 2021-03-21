@@ -26,6 +26,41 @@ function initializeCharacter() {
   character.style.bottom = characterBottomSpace + "px";
 }
 
+function moveChar(event) {
+  if (event.key === "ArrowLeft") {
+    charLeft();
+  } else if (event.key === "ArrowRight") {
+    charRight();
+  } else if (event.key === "ArrowUp") {
+    charStraight();
+  }
+}
+
+function charLeft() {
+  clearInterval(rightTimerId);
+  leftTimerId = setInterval(() => {
+    if (characterLeftSpace >= 0) {
+      characterLeftSpace -= 5;
+      character.style.left = characterLeftSpace + "px";
+    }
+  }, 30);
+}
+
+function charRight() {
+  clearInterval(leftTimerId);
+  rightTimerId = setInterval(() => {
+    if (characterLeftSpace <= 340) {
+      characterLeftSpace += 5;
+      character.style.left = characterLeftSpace + "px";
+    }
+  }, 30);
+}
+
+function charStraight() {
+  clearInterval(leftTimerId);
+  clearInterval(rightTimerId);
+}
+
 class Platform {
   constructor(newPlatformBottom) {
     this.bottom = newPlatformBottom;
@@ -56,6 +91,12 @@ function movePlatforms() {
       platform.bottom -= 5;
       let platDiv = platform.platDiv;
       platDiv.style.bottom = platform.bottom + "px";
+      if (platform.bottom < 10) {
+        platforms[0].platDiv.remove("platform");
+        platforms.shift();
+        let newPlat = new Platform(600);
+        platforms.push(newPlat);
+      }
     });
   }
 }
@@ -89,8 +130,8 @@ function charFall() {
         characterLeftSpace <= platform.left + 85
       ) {
         console.log("jumping");
-        charJump();
         jumpPos = characterBottomSpace;
+        charJump();
       }
     });
   }, 30);
@@ -107,3 +148,4 @@ createPlatforms();
 initializeCharacter();
 setInterval(movePlatforms, 30);
 charJump();
+document.addEventListener("keyup", moveChar);

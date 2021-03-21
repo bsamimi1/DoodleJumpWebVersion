@@ -1,11 +1,11 @@
 .boundary {
     width: 400px;
     height: 600px;
-    background-size: 6% 4%;
+    background-size: 4% 2.667%;
     position: relative;
     background-image:
-    linear-gradient(to right, grey 1px, transparent 1px),
-    linear-gradient(to bottom, grey 1px, transparent 1px);
+    linear-gradient(to right, rgb(204, 204, 204) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(204,204,204), transparent 1px);
 }
 
 .platform {
@@ -17,8 +17,8 @@
 }
 
 .character {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     position:absolute;
     content:url(doodle_character.png);
 }​

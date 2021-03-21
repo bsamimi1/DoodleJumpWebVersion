@@ -1,2 +1,2 @@
 # DoodleJumpWebVersion
-Browser playable clone of Doodle Jump
+Simple browser clone of Doodle Jump
